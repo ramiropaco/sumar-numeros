@@ -1,3 +1,4 @@
+import streamlit as st
 import tensorflow as tf
 
 def sumar_enteros(a, b):
@@ -15,18 +16,16 @@ def sumar_enteros(a, b):
   suma = tf.add(a_tensor, b_tensor)
   return suma
 
-# Ejemplo de uso
-numero1 = 10
-numero2 = 5
-resultado_tensor = sumar_enteros(numero1, numero2)
+st.title("Sumador de Enteros con TensorFlow")
 
-# Para obtener el valor numérico del Tensor
-resultado = resultado_tensor.numpy()
-print(f"La suma de {numero1} y {numero2} es: {resultado}")
+numero1 = st.number_input("Ingrese el primer número entero", step=1, format="%d")
+numero2 = st.number_input("Ingrese el segundo número entero", step=1, format="%d")
 
-# También se puede trabajar directamente con Tensores
-tensor_a = tf.constant(25, dtype=tf.int32)
-tensor_b = tf.constant(12, dtype=tf.int32)
-resultado_tensor_directo = tf.add(tensor_a, tensor_b)
-resultado_directo = resultado_tensor_directo.numpy()
-print(f"La suma de {tensor_a.numpy()} y {tensor_b.numpy()} es: {resultado_directo}")
+if st.button("Sumar"):
+  if isinstance(numero1, (int, float)) and numero1 == int(numero1) and \
+     isinstance(numero2, (int, float)) and numero2 == int(numero2):
+    resultado_tensor = sumar_enteros(int(numero1), int(numero2))
+    resultado = resultado_tensor.numpy()
+    st.success(f"La suma de {int(numero1)} y {int(numero2)} es: {resultado}")
+  else:
+    st.error("Por favor, ingrese números enteros válidos.")
